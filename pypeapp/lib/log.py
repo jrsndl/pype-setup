@@ -315,7 +315,9 @@ class PypeLogger:
         components = _log_mongo_components()
         # Check existence of mongo connection before creating Mongo handler
         if log4mongo.handlers._connection is None:
-            _bootstrap_mongo_log(components)
+            # TODO store connection to handler?
+            dbcon = _bootstrap_mongo_log(components)
+            dbcon.client.close()
 
         kwargs = {
             "host": compose_url(**components),
